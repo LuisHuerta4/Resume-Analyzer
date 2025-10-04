@@ -20,12 +20,12 @@ const Auth = () => {
   }, [auth.isAuthenticated, next]);
 
   return (
-    <main className="bg-[url('/images/bg-auth.svg')] bg-cover min-h-screen flex items-center justify-center">
+    <main className="bg-[url('/images/bg-auth.png')] bg-cover min-h-screen flex items-center justify-center">
       <div className="gradient-border shadow-lg">
         <section className="flex flex-col gap-8 bg-white rounded-2xl p-10">
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1>Welcome</h1>
-            <h2>Log into your account</h2>
+            <h1 className="!text-gradient">Welcome</h1>
+            <h2 className="!text-gradient">Log into your account</h2>
           </div>
           <div>
             {isLoading ? (

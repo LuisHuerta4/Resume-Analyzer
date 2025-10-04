@@ -80,7 +80,7 @@ const Upload = () => {
     }
 
     return (
-        <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+        <main className="bg-[url('/images/bg-main.png')] bg-cover">
             <Navbar />
             
             <section className="main-section">
@@ -98,22 +98,22 @@ const Upload = () => {
                         <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
 
                             <div className="form-div">
-                                <label htmlFor="company-name">Company Name</label>
+                                <label htmlFor="company-name" className="!text-white">Company Name</label>
                                 <input type="text" id="company-name" name="company-name" placeholder="Company Name" autoComplete="off" />
                             </div>
 
                             <div className="form-div">
-                                <label htmlFor="job-title">Job Title</label>
+                                <label htmlFor="job-title" className="!text-white">Job Title</label>
                                 <input type="text" id="job-title" name="job-title" placeholder="Job Title" autoComplete="off" />
                             </div>
 
                             <div className="form-div">
-                                <label htmlFor="job-description">Job Description</label>
+                                <label htmlFor="job-description" className="!text-white">Job Description</label>
                                 <textarea rows={5} id="job-description" name="job-description" placeholder="Job Description" autoComplete="off" />
                             </div>
 
                             <div className="form-div">
-                                <label htmlFor="uploader">Upload Resume</label>
+                                <label htmlFor="uploader" className="!text-white">Upload Resume</label>
                                 <FileUploader onFileSelect={handleFileSelect}/>
                             </div>
 

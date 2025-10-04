@@ -27,11 +27,11 @@ main {
   @apply min-h-screen pt-10;
 }
 h1 {
-  @apply max-sm:text-[3rem] text-6xl  text-gradient leading-tight xl:tracking-[-2px] font-semibold;
+  @apply max-sm:text-[3rem] text-6xl text-white leading-tight xl:tracking-[-2px] font-semibold;
 }
 
 h2 {
-  @apply max-sm:text-xl text-3xl text-dark-200;
+  @apply max-sm:text-xl text-3xl text-white;
 }
 
 label {
@@ -51,7 +51,7 @@ form {
 
 @layer components {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#007BFF] via-[#00AEEF] to-[#00C6D7];
   }
   .gradient-border {
     @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200 p-4 rounded-2xl;
@@ -121,7 +121,7 @@ form {
 }
 
 @utility text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#42b0ff] via-[#06B6D4] to-[#2da2f6];
 }
 
 @utility gradient-hover {
@@ -129,8 +129,8 @@ form {
 }
 
 @utility primary-gradient {
-  background: linear-gradient(to bottom, #8e98ff, #606beb);
-  box-shadow: 0px 74px 21px 0px #6678ef00;
+  background: linear-gradient(to bottom, #5EEAD4, #3B82F6);
+  box-shadow: 0px 4px 10px 0px rgba(59, 130, 246, 0.3);
 }
 
 @utility primary-gradient-hover {
