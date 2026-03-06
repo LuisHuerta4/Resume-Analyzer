@@ -1,86 +1,136 @@
-# AI Resume Analyzer
+# Resume Radar — AI-Powered Resume Analyzer
 
-Resume Radar is a web application that helps job seekers improve their resumes by providing **AI-powered, job-specific feedback**. Users can upload their resumes, enter job details, and instantly receive **ATS scores, strengths, weaknesses, and tailored suggestions** for improvement.  
+> Upload your resume, paste a job description, and receive instant AI feedback — ATS score, strengths, weaknesses, and actionable improvement tips across five dimensions.
 
---- 
-
-## Built With
 [![React][react-shield]][react-url]
 [![TypeScript][typescript-shield]][typescript-url]
 [![React Router][reactrouter-shield]][reactrouter-url]
-[![Node.js][node-shield]][node-url]
 [![TailwindCSS][tailwind-shield]][tailwind-url]
 [![Zustand][zustand-shield]][zustand-url]
-[![JavaScript][javascript-shield]][javascript-url]
 [![Puter][puter-shield]][puter-url]
+
+---
+
+## What Is Resume Radar?
+
+Resume Radar is a full-stack web application that gives job seekers an edge by analyzing their resumes against real job descriptions using **Claude 3.7 Sonnet** (via Puter AI). It evaluates ATS compatibility, writing quality, content relevance, document structure, and skills alignment — then presents the results through interactive visualizations and expandable feedback cards.
+
+**No backend server. No environment variables. No API keys to manage.** All infrastructure — authentication, file storage, AI inference, and data persistence — is handled through the Puter platform.
 
 ---
 
 ## Features
 
-- **User Authentication** with Puter  
-- **Upload Resumes**  
-- **Automatic PDF Preview Thumbnails**  
-- **AI-Powered Feedback**:
-  - ATS score  
-  - Strengths & weaknesses  
-  - Suggestions for improvement  
-  - Breakdown of tone, style, content, and skills  
-- **Interactive Visualization**:
-  - Score gauges  
-  - Badges for improvement areas  
-  - Accordion-style expandable details  
-- **Persistent Resume History**:
-  - Track past uploads and feedback  
-  - View ATS scores at a glance  
+### AI-Powered Resume Analysis
+- **ATS Score** — Measures how well the resume is likely to pass Applicant Tracking Systems
+- **5-Dimension Feedback** — Independent scores for Tone & Style, Content, Structure, and Skills
+- **Job-Specific Analysis** — AI cross-references the resume against the provided job title and description
+- **Honest Scoring** — The model is prompted to give genuinely low scores when improvement is needed, not inflated results
+
+### File Handling
+- **PDF Upload** — Drag-and-drop or click-to-select interface, up to 20 MB
+- **Automatic Thumbnails** — Resumes are rendered to high-resolution PNG previews client-side using `pdfjs-dist` at 4× scale
+- **Cloud Storage** — PDF and thumbnail files are stored in Puter's cloud file system per user
+
+### Visualizations
+- **Score Gauge** — Half-arc SVG gauge for the overall score on the feedback page
+- **Score Circle** — Circular SVG progress ring on resume history cards
+- **Color-Coded Badges** — Three-tier system (Strong / Good Start / Needs Work) applied consistently across all score displays
+- **Expandable Accordions** — Each feedback category expands to show a tip overview grid and detailed explanation cards
+
+### User Experience
+- **Persistent Resume History** — All past submissions and their feedback are saved to Puter KV and displayed on the dashboard
+- **Secure Authentication** — Sign in with a Puter account; no credentials stored in the application
+- **Responsive Layout** — Side-by-side resume preview and feedback panel on desktop; stacked on mobile
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React Router v7 (SSR) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| State Management | Zustand |
+| Backend / Auth / AI | Puter.js (Auth, FS, KV, AI) |
+| AI Model | Claude 3.7 Sonnet (via Puter AI) |
+| PDF Processing | pdfjs-dist |
+| File Input | react-dropzone |
+| Build Tool | Vite |
 
 ---
 
 ## How It Works
 
-1. **Authentication**  
-   - Users sign in through the **Puter API** for secure login.  
-   - Session management is handled client-side
+### 1. Sign In
 
-<img src="public\images\Screens\Login-Page.png" width="auto" height="600">
+Users authenticate through Puter's OAuth-style sign-in modal. Session state is managed client-side by the Puter SDK and reflected in the Zustand store.
 
-3. **Resume Upload**  
-   - Users upload resumes in **PDF format**.  
-   - Resumes are stored via **Puter File System**.  
-   - A **PDF-to-image converter** generates preview thumbnails for quick visual reference.  
-
-4. **Job Details Input**  
-   - Users provide information such as:  
-     - Job Title  
-     - Company  
-     - Location  
-     - Job Description
-
-<img src="public\images\Screens\Upload-Page.png" width="auto" height="600">
-
-5. **AI Feedback Generation**  
-   - Job details + the uploaded resume are sent to **Puter’s AI service**.  
-   - The AI analyzes resumes for:  
-     - ATS Score  
-     - Strengths  
-     - Weaknesses  
-     - Suggestions for improvement  
-     - Detailed breakdown of **tone, content, structure, and skills**
-
-<img src="public\images\Screens\Feedback-Page.png" width="auto" height="600">
-<img src="public\images\Screens\Details-Page.png" width="auto" height="600">
-
-6. **Dashboard & Feedback Display**  
-   - Home page displays all uploaded resumes with quick ATS score summaries.  
-   - Each resume can be clicked to view **in-depth analysis**:  
-     - ATS score with visual gauge  
-     - Strengths and weaknesses  
-     - Suggestions for improvement  
-     - Breakdown of **tone, style, structure, and skills** with expandable accordions
-    
-<img src="public\images\Screens\Home-Page.png" width="auto" height="600">
+<img src="public/images/Screens/Login-Page.png" width="auto" height="600">
 
 ---
+
+### 2. Upload & Describe the Job
+
+Users upload their resume (PDF) and optionally provide a company name, job title, and full job description. The job context is passed directly to the AI to produce role-specific feedback.
+
+<img src="public/images/Screens/Upload-Page.png" width="auto" height="600">
+
+---
+
+### 3. Automated Analysis Pipeline
+
+After submission, a 6-step pipeline runs automatically:
+
+1. PDF uploaded to Puter cloud file system
+2. First page rendered to a 4× scale PNG thumbnail client-side
+3. Thumbnail uploaded to Puter cloud file system
+4. Resume record stub saved to Puter KV (with a UUID key)
+5. Resume file + job details sent to Claude 3.7 Sonnet for analysis
+6. Structured JSON feedback saved back to the KV record
+
+Live status updates are shown at each step.
+
+---
+
+### 4. Feedback Dashboard
+
+The feedback page presents the AI's analysis across three sections:
+
+- **Summary Panel** — Overall score gauge + category scores with color-coded badges
+- **ATS Card** — ATS compatibility score with pass/fail tips
+- **Detailed Breakdown** — Accordion sections for Tone & Style, Content, Structure, and Skills, each showing a tip overview grid and full explanation cards
+
+<img src="public/images/Screens/Feedback-Page.png" width="auto" height="600">
+<img src="public/images/Screens/Details-Page.png" width="auto" height="600">
+
+---
+
+### 5. Resume History
+
+The home dashboard lists all previously submitted resumes with their thumbnail previews and ATS scores. Click any card to re-open the full feedback view.
+
+<img src="public/images/Screens/Home-Page.png" width="auto" height="600">
+
+---
+
+## Project Structure
+
+```
+app/
+  routes/           # Page components (home, auth, upload, resume, wipe)
+  components/       # Reusable UI components
+  lib/
+    puter.ts        # Zustand store — all Puter API wrappers
+    pdfToImage.ts   # Client-side PDF → PNG conversion
+    utils.ts        # cn(), formatSize(), generateUUID()
+  constants/
+    index.ts        # AI prompt builder and response schema
+```
+
+---
+
 <!-- Badge References -->
 [puter-shield]: https://img.shields.io/badge/Puter-API-000000?style=for-the-badge&logo=puter&logoColor=white
 [puter-url]: https://developer.puter.com/
@@ -96,7 +146,6 @@ Resume Radar is a web application that helps job seekers improve their resumes b
 
 [node-shield]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [node-url]: https://nodejs.org/
-
 
 [tailwind-shield]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [tailwind-url]: https://tailwindcss.com/
